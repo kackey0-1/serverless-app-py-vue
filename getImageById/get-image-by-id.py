@@ -38,7 +38,7 @@ def lambda_handler(event, context):
                 }
             )
             logger.info("STEP 2")
-            if 'Item' in response:
+            if 'Item' not in response:
                 logger.info("Specified key is not found.")
                 response = {
                     'statusCode': 404,
@@ -62,7 +62,8 @@ def lambda_handler(event, context):
             return response
         else:
             logger.info("STEP 3")
-            items = json.dumps(response['Items'], cls=DecimalEncoder)
+            logger.info(str(response))
+            items = json.dumps(response['Item'], cls=DecimalEncoder)
             response = {
                 'statusCode': 200,
                 'body': items,

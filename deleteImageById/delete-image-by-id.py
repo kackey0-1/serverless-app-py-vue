@@ -21,7 +21,7 @@ table = dynamodb.Table(os.getenv('TABLE_NAME'))
 def lambda_handler(event, context):
     logger.info("STEP 1")
     try:
-        photo_id = event['pathParameters']['photo_id']
+        photo_id = event['pathParameters']['id']
         try:
             response = table.get_item(
                 Key={
@@ -29,7 +29,7 @@ def lambda_handler(event, context):
                 }
             )
             logger.info("STEP 2")
-            if 'Item' in response:
+            if 'Item' not in response:
                 logger.info("Specified key is not found.")
                 response = {
                     'statusCode': 404,
@@ -62,7 +62,7 @@ def lambda_handler(event, context):
             logging.info('Item (photo_id = ' + photo_id + ') is sucessfully deleted')
             response = {
                 'statusCode': 204,
-                'body': items,
+                'body': '',
                 'headers': {
                     'Content-Type': 'applicatioin/json',
                 }
