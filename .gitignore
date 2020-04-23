@@ -1,0 +1,17 @@
+.DS_Store
+serverless-spa/node_modules/
+serverless-spa/dist/
+serverless-spa/npm-debug.log*
+serverless-spa/yarn-debug.log*
+serverless-spa/yarn-error.log*
+serverless-spa/test/unit/coverage/
+serverless-spa/test/e2e/reports/
+serverless-spa/selenium-debug.log
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
