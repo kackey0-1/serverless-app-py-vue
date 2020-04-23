@@ -204,3 +204,60 @@ postImages.pyとtemplate.yamlを用意して下記コマンド実行
   ]
 }
 ```
+
+##### Amazon Cognitoを利用した認証処理
+1. ユーザープールの作成
+`aws cloudformation create-stack --stack-name photo-app-pool --region ap-northeast-1 --template-body file://userpool-template.yaml`
+
+2. 
+`aws cloudformation describe-stacks --stack-name photo-app-pool --region ap-northeast-1`
+
+###### Amazon Cognito=ユーザー管理機能
+- Amazon Cognitoユーザープール: サインアップ、サインイン機能とユーザーディレクトリを提供するサービス
+- Amazon Cognitoフェデれーテッドアイデンティティ: UUIDを発行する機能
+- Amazon Cognito Sync: ユーザーデータの保管と複数デバイス間での同期する機能
+
+###### ユーザー属性について
+ユーザープールで作成するユーザーはすべて属性を持ち、標準属性とカスタム属性がある
+- address, birthdate, email, family_name, gender, given_name, locale, middle_name, name
+- nickname, phone_number, picture, preferred_username, profile, timezone, updated_at, website
+
+```yaml
+Resources:
+  UserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Properties:
+      Schema:
+        - Name: 'email'
+          StringAttributeConstraints:
+            MinLength: '0'
+            MaxLength: '2048'
+          Required: true
+          AttributeDataType: 'String'
+          Mutable: true
+      AliasAttributes: ['email']
+      AutoVerifiedAttributes: ['email']
+      EmailVerificationSubject: 'Your verification code'
+      EmailVerificationMessage: 'Your confirmation code is {####}.'
+      MfaConfiguration: 'OFF'
+      UserPoolName: 
+        Ref: AWS::StackName
+      Policies:
+        PasswordPolicy:
+          RequireLowercase: false
+          RequireSymbols: false
+          RequireNumbers: false
+          MinimumLength: 6
+          RequireUppercase: false
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: 'photo-app'
+      GenerateSecret: false
+      UserPoolId: !Ref UserPool
+Outputs:
+  UserPoolId:
+    Value: !Ref UserPool
+  UserPoolClientId:
+    Value: !Ref UserPoolClient
+```
