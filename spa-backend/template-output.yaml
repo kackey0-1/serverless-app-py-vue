@@ -5,7 +5,7 @@ Resources:
   postImages:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://serverless-app-sam/7da2aa8cc7688fa79fa536dafe3645a4
+      CodeUri: s3://serverless-app-sam/db5245b8a22326a8ebb13ac6b4f8b252
       Handler: post-images.lambda_handler
       Runtime: python3.6
       Description: ''
@@ -87,6 +87,8 @@ Resources:
           /images:
             get:
               responses: {}
+              security:
+              - Cognito_Custom_Authorizer: []
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/${getImages.Arn}/invocations
@@ -95,6 +97,8 @@ Resources:
                 type: aws_proxy
             post:
               responses: {}
+              security:
+              - Cognito_Custom_Authorizer: []
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/${postImages.Arn}/invocations
@@ -103,6 +107,8 @@ Resources:
                 type: aws_proxy
             put:
               responses: {}
+              security:
+              - Cognito_Custom_Authorizer: []
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/${updateImage.Arn}/invocations
@@ -144,6 +150,8 @@ Resources:
           /images/{id}:
             get:
               responses: {}
+              security:
+              - Cognito_Custom_Authorizer: []
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/${getImageById.Arn}/invocations
@@ -152,6 +160,8 @@ Resources:
                 type: aws_proxy
             delete:
               responses: {}
+              security:
+              - Cognito_Custom_Authorizer: []
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/${deleteImageById.Arn}/invocations
@@ -190,6 +200,16 @@ Resources:
                       type: string
                     Access-Control-Allow-Origin:
                       type: string
+        securityDefinitions:
+          Cognito_Custom_Authorizer:
+            type: apiKey
+            name: Authorization
+            in: header
+            x-amazon-apigateway-authtype: cognito_user_pools
+            x-amazon-apigateway-authorizer:
+              providerARNs:
+              - arn:aws:cognito-idp:ap-northeast-1:618448440758:userpool/ap-northeast-1_SqFTKebVe
+              type: cognito_user_pools
   getImagesPermission:
     Type: AWS::Lambda::Permission
     Properties:
