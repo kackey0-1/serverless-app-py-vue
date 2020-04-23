@@ -1,13 +1,15 @@
 <template>
   <div id="signup">
-    <h2>Signup</h2>
-    <form v-on:submit.prevent="signup" class="pure-form pure-form-stacked">
-      <label><input v-model="username" placeholder="Username"></label>
-      <label><input v-model="email" placeholder="Email"></label>
-      <label><input v-model="password" placeholder="Password" type="password"></label><br>
-      <button type="submit" class="pure-button pure-button-primary">サインアップ</button>
-      <p v-if="error" class="error">サインアップに失敗しました</p>
+    <div id="signup-form">
+      <h2>Signup</h2>
+      <form v-on:submit.prevent="signup" class="pure-form pure-form-stacked">
+        <label><input v-model="username" placeholder="Username"></label>
+        <label><input v-model="email" placeholder="Email"></label>
+        <label><input v-model="password" placeholder="Password" type="password"></label><br>
+        <button type="submit" class="pure-button pure-button-primary">サインアップ</button>
+        <p v-if="error" class="error">サインアップに失敗しました</p>
     </form>
+    </div>
   </div>
 </template>
 
@@ -50,6 +52,11 @@ export default {
 
 <style>
 #signup {
-	padding: .5em 1em;
+    text-align: center;
+}
+#signup-form {
+    padding: .5em 1em;
+    display: inline-block;
+    margin: 0 auto;
 }
 </style>

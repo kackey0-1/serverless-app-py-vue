@@ -1,12 +1,17 @@
 <template>
   <div id="confirm">
-    <h2>Confirmation</h2>
-    <p>We sent a confirmation code to {{ email }}. Enter it below to activate your account. </p>
-    <form v-on:submit.prevent="confirm" class="pure-form pure-form-stacked">
-      <label><input v-model="confirmation_code" placeholder="Cofirmation code"></label><br>
-      <button type="submit" class="pure-button pure-button-primary">登録</button>
-      <p v-if="error" class="error">サインアップに失敗しました</p>
+    <div id="confirm-form">
+      <h2>Confirmation</h2>
+      <p>
+        We sent a confirmation code to {{ email }}.<br>
+        Enter it below to activate your account.
+      </p>
+      <form v-on:submit.prevent="confirm" class="pure-form pure-form-stacked">
+        <label><input v-model="confirmation_code" placeholder="Cofirmation code"></label><br>
+        <button type="submit" class="pure-button pure-button-primary">登録</button>
+        <p v-if="error" class="error">サインアップに失敗しました</p>
     </form>
+    </div>
   </div>
 </template>
 
@@ -55,6 +60,15 @@ export default {
 
 <style>
 #confirm {
-	padding: .5em 1em;
+  text-align: center;
+}
+#confirm-form {
+  padding: .5em 1em;
+  display: inline-block;
+  margin: 0 auto;
+}
+#confirm-form input {
+  width: 100%;
+  text-align: center;
 }
 </style>

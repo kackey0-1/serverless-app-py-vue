@@ -22,7 +22,7 @@
     </div>
     <router-view/>
     <div class="footer">
-        This sample app was made by Keisuke Nishitani.
+        This sample app was made by kackey0-1.
     </div>
 </div>
 </template>

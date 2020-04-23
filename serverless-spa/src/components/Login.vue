@@ -1,13 +1,15 @@
 <template>
   <div id="login">
-    <h2>Login</h2>
-    <form v-on:submit.prevent="login" class="pure-form pure-form-stacked">
-      <label><input v-model="email" placeholder="Email"></label>
-      <label><input v-model="password" placeholder="Password" type="password"></label><br>
-      <button type="submit" class="pure-button pure-button-primary">ログイン</button>
-      <p>新たに<router-link to="signup">サインアップ</router-link>する</p>
-      <p v-if="error" class="error">ログインに失敗しました</p>
-    </form>
+    <div id="login-form">
+        <h2>Login</h2>
+        <form v-on:submit.prevent="login" class="pure-form pure-form-stacked">
+        <label><input v-model="email" placeholder="Email"></label>
+        <label><input v-model="password" placeholder="Password" type="password"></label><br>
+        <button type="submit" class="pure-button pure-button-primary">ログイン</button>
+        <p>新たに<router-link to="signup">サインアップ</router-link>する</p>
+        <p v-if="error" class="error">ログインに失敗しました</p>
+        </form>
+    </div>
   </div>
 </template>
 
@@ -43,6 +45,11 @@ export default {
 
 <style>
 #login {
-	padding: .5em 1em;
+    text-align: center;
+}
+#login-form {
+    padding: .5em 1em;
+    display: inline-block;
+    margin: 0 auto;
 }
 </style>
