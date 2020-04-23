@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 import appConfig from './config'
 import * as AWS from "aws-sdk";
 import {

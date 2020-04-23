@@ -13,7 +13,7 @@
 </div>
 </template>
 <script>
-/* eslint-disable */ 
+/* eslint-disable */
 import axios from "axios";
 import appConfig from "../config";
 import auth from "../auth";
@@ -26,7 +26,7 @@ export default {
     return {
       image_url_base: appConfig.ImageBaseUrl,
       photo_id: this.$route.params.photo_id,
-      type: "jpeg",
+      type: this.$route.params.type,
       labels: []
     };
   },
