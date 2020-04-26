@@ -7,7 +7,7 @@ serverless-spa/yarn-error.log*
 serverless-spa/test/unit/coverage/
 serverless-spa/test/e2e/reports/
 serverless-spa/selenium-debug.log
-
+__init__.py
 # Editor directories and files
 .idea
 .vscode
