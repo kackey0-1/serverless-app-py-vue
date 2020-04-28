@@ -9,7 +9,7 @@ chalice new-project <project_name>
 chalice deploy local --stage devORprod
 
 # ローカル実行
-chalice local --stage dev
+`chalice local --stage dev`
 
 # AWS削除
 chalice delete --stage devORprod

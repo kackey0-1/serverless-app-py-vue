@@ -3,10 +3,9 @@ import uuid
 import boto3
 from boto3.dynamodb.conditions import Key
 import logging
-import datetime
 
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # DynamoDBへの接続を取得する
 def _get_database():
@@ -20,7 +19,7 @@ def _get_database():
         return boto3.resource('dynamodb', region_name=region_name)
 
 # すべてのレコードを取得する
-def get_all_images(table_name):
+def get_all_images():
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#using-an-existing-table
     table = _get_database().Table(os.environ['DB_TABLE_NAME'])
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#querying-and-scanning
@@ -32,25 +31,22 @@ def get_image(image_id):
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#using-an-existing-table
     table = _get_database().Table(os.environ['DB_TABLE_NAME'])
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#querying-and-scanning
-    response = table.query(
-        KeyConditionExpression=Key('id').eq(image_id)
-    )
+    response = table.query(KeyConditionExpression=Key('image_id').eq(image_id))
     items = response['Items']
-    return items[0] if items else None
+    return items if items else None
 
 # レコードを登録する
-def create_image(image):
-    now = datetime.datetime.now()
+def create_image(image, now):
     # 登録内容を作成する
     item = {
-        'id': uuid.uuid4().hex,
+        'image_id': uuid.uuid4().hex,
         'title': image['title'],
         'size': image['size'],
-        'status': image['status'],
+        'status': "Uploaded",
         'timestamp': now,
         'type': image['type'],
     }
-
+    
     # DynamoDBにデータを登録する
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#using-an-existing-table
     table = _get_database().Table(os.environ['DB_TABLE_NAME'])
@@ -66,16 +62,15 @@ def update_image(image_id, changes):
     # クエリを構築する
     update_expression = []
     expression_attribute_values = {}
-    for key in ['title', 'memo', 'priority', 'completed']:
+    for key in ['title', 'size', 'status', 'type']:
         if key in changes:
-            update_expression.append(f"{key} = :{key[0:1]}")
-            expression_attribute_values[f":{key[0:1]}"] = changes[key]
-
+            update_expression.append(f"{key} = :{key}")
+            expression_attribute_values[f":{key}"] = changes[key]
     # DynamoDBのデータを更新する
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#updating-item
     result = table.update_item(
         Key={
-            'id': image_id,
+            'image_id': image_id,
         },
         UpdateExpression='set ' + ','.join(update_expression),
         ExpressionAttributeValues=expression_attribute_values,
