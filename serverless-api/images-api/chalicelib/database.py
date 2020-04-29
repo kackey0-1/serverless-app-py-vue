@@ -5,7 +5,7 @@ from boto3.dynamodb.conditions import Key
 import logging
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.ERROR)
 
 # DynamoDBへの接続を取得する
 def _get_database():
@@ -39,7 +39,7 @@ def get_image(image_id):
 def create_image(image, now):
     # 登録内容を作成する
     item = {
-        'image_id': uuid.uuid4().hex,
+        'image_id': str(uuid.uuid4()),
         'title': image['title'],
         'size': image['size'],
         'status': "Uploaded",
@@ -61,10 +61,12 @@ def update_image(image_id, changes):
 
     # クエリを構築する
     update_expression = []
+    expression_attribute_names = {}
     expression_attribute_values = {}
     for key in ['title', 'size', 'status', 'type']:
         if key in changes:
-            update_expression.append(f"{key} = :{key}")
+            update_expression.append(f"#{key} = :{key}")
+            expression_attribute_names[f"#{key}"] = key
             expression_attribute_values[f":{key}"] = changes[key]
     # DynamoDBのデータを更新する
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#updating-item
@@ -73,6 +75,7 @@ def update_image(image_id, changes):
             'image_id': image_id,
         },
         UpdateExpression='set ' + ','.join(update_expression),
+        ExpressionAttributeNames=expression_attribute_names,
         ExpressionAttributeValues=expression_attribute_values,
         ReturnValues='ALL_NEW'
     )
@@ -87,7 +90,7 @@ def delete_image(image_id):
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#deleting-item
     result = table.delete_item(
         Key={
-            'id': image_id,
+            'image_id': image_id,
         },
         ReturnValues='ALL_OLD'
     )

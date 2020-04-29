@@ -7,7 +7,8 @@
         </div>
     </div>
     <div class="photo-detail pure-u-1 pure-u-md-1 pure-u-lg-1 pure-u-xl-1">
-        <img v-bind:src="image_url_base + '/' + photo_id + '.' + type">
+        <!-- <img v-bind:src="image_url_base + '/' + photo_id + '.' + type"> -->
+        <img v-bind:src="image_url_base + '/' + image_id + '.' + type">
     </div>
     <button v-on:click="deleteImage" class="pure-button">この画像を削除する</button>
 </div>
@@ -25,7 +26,8 @@ export default {
   data: function() {
     return {
       image_url_base: appConfig.ImageBaseUrl,
-      photo_id: this.$route.params.photo_id,
+      // photo_id: this.$route.params.photo_id,
+      image_id: this.$route.params.image_id,
       type: this.$route.params.type,
       labels: []
     };
@@ -39,7 +41,8 @@ export default {
       var auth_header = auth.get_id_token();
 
       axios
-        .get(API_BASE_URL + "/images/" + this.photo_id, {
+        // .get(API_BASE_URL + "/images/" + this.photo_id, {
+        .get(API_BASE_URL + "/images/" + this.image_id, {
           headers: { Authorization: auth_header }
         })
         .then(function(res) {
@@ -51,11 +54,13 @@ export default {
       var self = this;
       var auth_header = auth.get_id_token();
       axios
-        .delete(API_BASE_URL + "/images/" + this.photo_id, {
+        // .delete(API_BASE_URL + "/images/" + this.photo_id, {
+        .delete(API_BASE_URL + "/images/" + this.image_id, {
           headers: { Authorization: auth_header }
         })
         .then(function(res) {
-          console.log(self.photo_id + "is deleted.");
+          // console.log(self.photo_id + "is deleted.");
+          console.log(self.image_id + "is deleted.");
           alert("画像を削除しました");
           self.$router.replace("/");
         });

@@ -1,20 +1,22 @@
 {
   "version": "2.0",
-  "app_name": "severless-api",
+  "app_name": "videos-api",
   "api_gateway_stage": "api",
   "stages": {
     "dev": {
       "environment_variables": {
+        "USER_POOL_ARN": "arn:aws:cognito-idp:ap-northeast-1:618448440758:userpool/ap-northeast-1_SqFTKebVe",
         "DB_REGION": "ap-northeast-1",
         "DB_ENDPOINT": "http://127.0.0.1:8001",
-        "DB_TABLE_NAME": "Images"
+        "DB_TABLE_NAME": "Videos"
       }
     },
     "prod": {
       "autogen_policy": false,
       "environment_variables": {
+        "USER_POOL_ARN": "arn:aws:cognito-idp:ap-northeast-1:618448440758:userpool/ap-northeast-1_SqFTKebVe",
         "DB_REGION": "ap-northeast-1",
-        "DB_TABLE_NAME": "Images"
+        "DB_TABLE_NAME": "Videos"
       }
     }
   }
