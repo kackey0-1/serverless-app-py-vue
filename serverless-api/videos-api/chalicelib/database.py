@@ -61,10 +61,12 @@ def update_video(video_id, changes):
 
     # クエリを構築する
     update_expression = []
+    expression_attribute_names = {}
     expression_attribute_values = {}
     for key in ['title', 'size', 'type']:
         if key in changes:
-            update_expression.append(f"{key} = :{key}")
+            update_expression.append(f"#{key} = :{key}")
+            expression_attribute_names[f"#{key}"] = key
             expression_attribute_values[f":{key}"] = changes[key]
     # DynamoDBのデータを更新する
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html#updating-item
@@ -73,6 +75,7 @@ def update_video(video_id, changes):
             'video_id': video_id,
         },
         UpdateExpression='set ' + ','.join(update_expression),
+        ExpressionAttributeNames=expression_attribute_names,
         ExpressionAttributeValues=expression_attribute_values,
         ReturnValues='ALL_NEW'
     )

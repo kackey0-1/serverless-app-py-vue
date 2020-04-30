@@ -6,16 +6,37 @@ import Signup from '@/components/Signup'
 import Confirm from '@/components/Confirm'
 import Login from '@/components/Login'
 import auth from '@/auth'
-import Photo from '@/components/Photo'
+import Image from '@/components/Image'
+import Images from '@/components/Images'
+import Video from '@/components/Video'
+import Videos from '@/components/Videos'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/photo',
-      name: 'photo',
-      component: Photo,
+      path: '/image',
+      name: 'image',
+      component: Image,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/images',
+      name: 'images',
+      component: Images,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/video',
+      name: 'video',
+      component: Video,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      component: Videos,
       beforeEnter: requireAuth
     },
     {

@@ -2,12 +2,15 @@ from chalice import BadRequestError, Chalice, NotFoundError
 from chalicelib import database, utils
 from chalice import CognitoUserPoolAuthorizer
 import os
+import logging
 
 authorizer = CognitoUserPoolAuthorizer(
     'ChaliceUserPool', provider_arns=[os.environ['USER_POOL_ARN']]
 )
 
 app = Chalice(app_name='videos-api')
+app.log.setLevel(logging.INFO)
+
 # TABLE_NAME = 'videos'
 # すべてのvideoを取得する
 @app.route('/videos', methods=['GET'], cors=True, authorizer=authorizer)
@@ -36,15 +39,18 @@ def create_video():
         if key not in video:
             raise BadRequestError(f"{key} is required.")
     # データを登録する
-    return database.create_video(video, utils.get_timestamp())
+    app.log.debug(utils.get_timestamp())
+    video = database.create_video(video, utils.get_timestamp())
+    url = utils.get_presigned_url(os.getenv('VIDEOS_BUCKET_NAME'), video['video_id'] + "." + video['type'].split("/")[1], video['type'])
+    video["signed_url"] = url
+    return video
 
 # 指定されたIDのvideoを更新する
-@app.route('/videos/{video_id}', methods=['PUT'], cors=True, authorizer=authorizer)
-def update_video(video_id):
+@app.route('/videos', methods=['PUT'], cors=True, authorizer=authorizer)
+def update_video():
     changes = app.current_request.json_body
-
     # データを更新する
-    return database.update_video(video_id, changes)
+    return database.update_video(changes['video_id'], changes)
 
 # 指定されたIDのvideoを削除する
 @app.route('/videos/{video_id}', methods=['DELETE'], cors=True, authorizer=authorizer)

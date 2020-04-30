@@ -14,10 +14,10 @@
                         <router-link to="/home" class="pure-menu-link">Home</router-link>
                     </li>
                     <li class="pure-menu-item">
-                        <a href="#upload-image" class="pure-menu-link">Upload</a>
+                        <router-link to="/images" class="pure-menu-link">Image</router-link>
                     </li>
                     <li class="pure-menu-item">
-                        <a href="#" class="pure-menu-link">Settings</a>
+                        <router-link to="/videos" class="pure-menu-link">Video</router-link>
                     </li>
                     <li class="pure-menu-item">
                         <router-link to="/logout" class="pure-menu-link">Logout</router-link>

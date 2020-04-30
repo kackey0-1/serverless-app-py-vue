@@ -63,7 +63,7 @@ def update_image(image_id, changes):
     update_expression = []
     expression_attribute_names = {}
     expression_attribute_values = {}
-    for key in ['title', 'size', 'status', 'type']:
+    for key in ['title', 'size', 'type']:
         if key in changes:
             update_expression.append(f"#{key} = :{key}")
             expression_attribute_names[f"#{key}"] = key
