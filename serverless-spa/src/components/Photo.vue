@@ -1,11 +1,5 @@
 <template>
 <div class="pure-g">
-    <div class="text-box pure-u-1 pure-u-md-1 pure-u-lg-1 pure-u-xl-1">
-        <div class="l-box">
-            <h1 class="text-box-head">Photo Gallery</h1>
-            <p class="text-box-subhead">A collection of various photos from around the world</p>
-        </div>
-    </div>
     <div class="photo-detail pure-u-1 pure-u-md-1 pure-u-lg-1 pure-u-xl-1">
         <!-- <img v-bind:src="image_url_base + '/' + photo_id + '.' + type"> -->
         <img v-bind:src="image_url_base + '/' + image_id + '.' + type">
