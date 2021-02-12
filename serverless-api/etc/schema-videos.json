@@ -1,0 +1,19 @@
+{
+    "TableName": "Videos",
+    "KeySchema": [
+        {
+            "KeyType": "HASH",
+            "AttributeName": "video_id"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "video_id",
+            "AttributeType": "S"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 10
+    }
+}

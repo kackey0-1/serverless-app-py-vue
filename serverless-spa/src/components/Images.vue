@@ -2,8 +2,16 @@
 <div class="pure-g">
     <div class="pure-u-1 form-box" id="upload-image">
         <div class="l-box">
-            <h2>Home Page</h2>
+            <h2>Upload a Photo</h2>
+            <input v-model="title" type="text" name="title" placeholder="Photo Name" required>
+            <input v-on:change="onFileChange" type="file" name="file" placeholder="Photo from your computer" accept="image/*" required>
+            <button v-on:click="uploadImage" class="pure-button pure-button-primary">アップロード</button>
         </div>
+    </div>
+    <!-- <div v-for="image in images" :key="image.photo_id" class="photo pure-u-1-3 pure-u-md-1-3 pure-u-lg-1-3 pure-u-xl-1-3"> -->
+    <div v-for="image in images" :key="image.image_id" class="photo pure-u-1-3 pure-u-md-1-3 pure-u-lg-1-3 pure-u-xl-1-3">
+        <!-- <router-link v-bind:to="{ name : 'photo', params : { photo_id: image.photo_id, type: image.type.split('/')[1] }}"><img v-bind:src="image_url_base + '/' +image.photo_id + '.' + image.type.split('/')[1]"></router-link> -->
+        <router-link v-bind:to="{ name : 'image', params : { image_id: image.image_id, type: image.type.split('/')[1] }}"><img v-bind:src="image_url_base + '/' +image.image_id + '.' + image.type.split('/')[1]"></router-link>
     </div>
 </div>
 </template>
@@ -101,5 +109,14 @@ export default {
 </script>
 
 <style>
+.photo {
+  height: 250px;
+  overflow: hidden;
+}
 
+.photo img {
+  max-width: 100%;
+  min-height: 250px;
+  height: auto;
+}
 </style>

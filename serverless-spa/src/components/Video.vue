@@ -1,15 +1,10 @@
 <template>
 <div class="pure-g">
-    <div class="text-box pure-u-1 pure-u-md-1 pure-u-lg-1 pure-u-xl-1">
-        <div class="l-box">
-            <h1 class="text-box-head">Photo Gallery</h1>
-            <p class="text-box-subhead">A collection of various photos from around the world</p>
-        </div>
-    </div>
     <div class="photo-detail pure-u-1 pure-u-md-1 pure-u-lg-1 pure-u-xl-1">
-        <img v-bind:src="image_url_base + '/' + photo_id + '.' + type">
+        <!-- <img v-bind:src="image_url_base + '/' + photo_id + '.' + type"> -->
+        <video v-bind:src="video_url_base + '/' + video_id + '.' + type" autoplay />
     </div>
-    <button v-on:click="deleteImage" class="pure-button">この画像を削除する</button>
+    <button v-on:click="deleteVideo" class="pure-button">この画像を削除する</button>
 </div>
 </template>
 <script>
@@ -18,45 +13,49 @@ import axios from "axios";
 import appConfig from "../config";
 import auth from "../auth";
 
-const API_BASE_URL = appConfig.ApiBaseUrl;
-const IMAGE_BASE_URL = appConfig.ImageBaseUrl;
+const API_BASE_URL = appConfig.VideosApiBaseUrl;
+const VIDEO_BASE_URL = appConfig.S3BaseUrl;
 
 export default {
   data: function() {
     return {
-      image_url_base: appConfig.ImageBaseUrl,
-      photo_id: this.$route.params.photo_id,
+      video_url_base: appConfig.S3BaseUrl,
+      // photo_id: this.$route.params.photo_id,
+      video_id: this.$route.params.video_id,
       type: this.$route.params.type,
       labels: []
     };
   },
   created: function() {
-    this.getImage();
+    this.getVideo();
   },
   methods: {
-    getImage: function() {
+    getVideo: function() {
       var self = this;
       var auth_header = auth.get_id_token();
 
       axios
-        .get(API_BASE_URL + "/images/" + this.photo_id, {
+        // .get(API_BASE_URL + "/videos/" + this.photo_id, {
+        .get(API_BASE_URL + "/videos/" + this.video_id, {
           headers: { Authorization: auth_header }
         })
         .then(function(res) {
           console.log(res.data);
-          self.$data.type = res.data.type.split("/")[1];
+          self.$data.type = res.data[0].type.split("/")[1];
         });
     },
-    deleteImage: function() {
+    deleteVideo: function() {
       var self = this;
       var auth_header = auth.get_id_token();
       axios
-        .delete(API_BASE_URL + "/images/" + this.photo_id, {
+        // .delete(API_BASE_URL + "/videos/" + this.photo_id, {
+        .delete(API_BASE_URL + "/videos/" + this.video_id, {
           headers: { Authorization: auth_header }
         })
         .then(function(res) {
-          console.log(self.photo_id + "is deleted.");
-          alert("画像を削除しました");
+          // console.log(self.photo_id + "is deleted.");
+          console.log(self.video_id + "is deleted.");
+          alert("動画を削除しました");
           self.$router.replace("/");
         });
     }

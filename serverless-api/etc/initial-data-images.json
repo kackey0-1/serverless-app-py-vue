@@ -1,0 +1,28 @@
+{
+    "Images": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "image_id": {
+                        "S": "hogehogehoge1"
+                    },
+                    "title": {
+                        "S": "title1"
+                    },
+                    "size": {
+                        "N": "1"
+                    },
+                    "status": {
+                        "S": "Uploaded"
+                    },
+                    "timestamp": {
+                        "N": "1587571987"
+                    },
+                    "type": {
+                        "S": "image/jpeg"
+                    }
+                }
+            }
+        }
+    ]
+}

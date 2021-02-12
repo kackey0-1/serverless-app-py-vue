@@ -1,0 +1,36 @@
+{
+  "version": "2.0",
+  "app_name": "videos-api",
+  "stages": {
+    "local": {
+      "environment_variables": {
+        "USER_POOL_ARN": "Local",
+        "DB_REGION": "ap-northeast-1",
+        "DB_ENDPOINT": "http://127.0.0.1:8001",
+        "DB_TABLE_NAME": "Videos"
+      }
+    },
+    "dev": {
+      "api_gateway_stage": "dev",
+      "autogen_policy": false,
+      "iam_policy_file": "policy-dev.json",
+      "environment_variables": {
+        "USER_POOL_ARN": "arn:aws:cognito-idp:ap-northeast-1:618448440758:userpool/ap-northeast-1_SqFTKebVe",
+        "DB_REGION": "ap-northeast-1",
+        "DB_TABLE_NAME": "Videos",
+        "VIDEOS_BUCKET_NAME": "serverless-app-photos-vue"
+      }
+    },
+    "prod": {
+      "api_gateway_stage": "api",
+      "autogen_policy": false,
+      "iam_policy_file": "policy-prod.json",
+      "environment_variables": {
+        "USER_POOL_ARN": "arn:aws:cognito-idp:ap-northeast-1:618448440758:userpool/ap-northeast-1_SqFTKebVe",
+        "DB_REGION": "ap-northeast-1",
+        "DB_TABLE_NAME": "Videos",
+        "VIDEOS_BUCKET_NAME": "serverless-app-photos-vue"
+      }
+    }
+  }
+}

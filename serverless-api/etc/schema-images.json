@@ -1,0 +1,19 @@
+{
+    "TableName": "Images",
+    "KeySchema": [
+        {
+            "KeyType": "HASH",
+            "AttributeName": "image_id"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "image_id",
+            "AttributeType": "S"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 10
+    }
+}
